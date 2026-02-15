@@ -12,6 +12,8 @@ class StockProvider extends ChangeNotifier {
   })  : _stockRepository = stockRepository,
         _watchlistRepository = watchlistRepository;
 
+  List<String> get sectionTitles => const ['가격', '요약', '입력', '확장 패널', '기타'];
+
   StockRepository get stockRepository => _stockRepository;
   WatchlistRepository get watchlistRepository => _watchlistRepository;
 }
