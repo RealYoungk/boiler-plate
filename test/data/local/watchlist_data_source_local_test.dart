@@ -85,9 +85,7 @@ void main() {
 
     group('remove', () {
       test('항목을 삭제할 수 있어야 한다', () async {
-        await dataSource.add(
-          WatchlistItemModel(stockCode: '005930'),
-        );
+        await dataSource.add(WatchlistItemModel(stockCode: '005930'));
         expect(dataSource.getAll(), hasLength(1));
 
         await dataSource.remove('005930');
