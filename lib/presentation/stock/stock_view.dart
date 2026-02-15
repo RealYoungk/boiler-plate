@@ -3,36 +3,105 @@ import 'package:flutter/material.dart';
 import 'package:flutter_coding_test/presentation/stock/stock_provider.dart';
 import 'package:provider/provider.dart';
 
-class StockView extends StatelessWidget {
+class StockView extends StatefulWidget {
   const StockView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<StockView> createState() => _StockViewState();
+}
+
+class _StockViewState extends State<StockView> with SingleTickerProviderStateMixin {
+  final _scrollController = ScrollController();
+  late final TabController _tabController;
+  late final List<GlobalKey> _sectionKeys;
+  bool _isTabTap = false;
+
+  @override
+  void initState() {
+    super.initState();
     final provider = context.read<StockProvider>();
-    return DefaultTabController(
-      length: provider.sectionTitles.length,
-      child: Scaffold(
-        appBar: const StockAppBarView(),
-        body: ListView(
-          children: const [
-            StockPriceView(),
-            Divider(),
-            StockSummaryView(),
-            Divider(),
-            StockInputView(),
-            Divider(),
-            StockExpansionView(),
-            Divider(),
-            StockEtcView(),
-          ],
-        ),
+    _sectionKeys = List.generate(provider.sectionTitles.length, (_) => GlobalKey());
+    _tabController = TabController(length: provider.sectionTitles.length, vsync: this);
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: StockAppBarView(
+        tabController: _tabController,
+        onTabTap: _scrollToSection,
+      ),
+      body: ListView(
+        controller: _scrollController,
+        children: [
+          StockPriceView(key: _sectionKeys[0]),
+          const Divider(),
+          StockSummaryView(key: _sectionKeys[1]),
+          const Divider(),
+          StockInputView(key: _sectionKeys[2]),
+          const Divider(),
+          StockExpansionView(key: _sectionKeys[3]),
+          const Divider(),
+          StockEtcView(key: _sectionKeys[4]),
+        ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToSection(int index) {
+    final keyContext = _sectionKeys[index].currentContext;
+    if (keyContext == null) return;
+
+    _isTabTap = true;
+    Scrollable.ensureVisible(
+      keyContext,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    ).then((_) => _isTabTap = false);
+  }
+
+  double get _appBarHeight =>
+      MediaQuery.of(context).padding.top + kToolbarHeight + kTextTabBarHeight;
+
+  void _onScroll() {
+    if (_isTabTap) return;
+
+    final threshold = _appBarHeight;
+
+    for (var i = _sectionKeys.length - 1; i >= 0; i--) {
+      final keyContext = _sectionKeys[i].currentContext;
+      if (keyContext == null) continue;
+
+      final box = keyContext.findRenderObject()! as RenderBox;
+      final position = box.localToGlobal(Offset.zero).dy;
+
+      if (position <= threshold) {
+        if (_tabController.index != i) {
+          _tabController.animateTo(i);
+        }
+        break;
+      }
+    }
   }
 }
 
 class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
-  const StockAppBarView({super.key});
+  const StockAppBarView({
+    super.key,
+    required this.tabController,
+    required this.onTabTap,
+  });
+
+  final TabController tabController;
+  final ValueChanged<int> onTabTap;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + kTextTabBarHeight);
@@ -59,19 +128,18 @@ class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       bottom: TabBar(
+        controller: tabController,
         isScrollable: true,
         tabAlignment: TabAlignment.start,
         tabs: provider.sectionTitles.map((title) => Tab(text: title)).toList(),
-        onTap: (index) {
-          // TODO(youngjin.kim): 해당 섹션으로 스크롤 이동
-        },
+        onTap: onTabTap,
       ),
     );
   }
 }
 
 class StockPriceView extends StatelessWidget {
-  const StockPriceView();
+  const StockPriceView({super.key});
 
   static const _mockSpots = [
     FlSpot(0, 71000),
