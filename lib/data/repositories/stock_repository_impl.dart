@@ -31,7 +31,7 @@ class StockRepositoryImpl implements StockRepository {
         })
         .map((tick) {
           if (tick.type != 'price_update') {
-            throw UnimplementedError('미구현 메시지 타입: ${tick.type}');
+            throw FormatException('지원하지 않는 메시지 타입: ${tick.type}');
           }
           return Stock(
             code: tick.stockCode,

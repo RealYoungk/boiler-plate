@@ -23,7 +23,6 @@ class StockTickDataSourceEzar {
 
   void disconnect() {
     _timer?.cancel();
-    _subject.close();
   }
 
   void _onMessageReceived() {

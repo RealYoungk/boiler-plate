@@ -24,6 +24,7 @@ class StockProvider extends ChangeNotifier {
   final CheckTargetPriceUseCase _checkTargetPriceUseCase;
 
   StreamSubscription<Stock>? _tickSubscription;
+  bool _disposed = false;
 
   StockState _state = const StockState();
   StockState get state => _state;
@@ -49,6 +50,7 @@ class StockProvider extends ChangeNotifier {
 
   @override
   void dispose() {
+    _disposed = true;
     _tickSubscription?.cancel();
     _stockRepository.disconnect();
     super.dispose();
@@ -73,25 +75,37 @@ class StockProvider extends ChangeNotifier {
   Future<void> _subscribeTick(String code) async {
     await _stockRepository.connect();
     _tickSubscription?.cancel();
-    _tickSubscription = _stockRepository.stockTickStream(code).listen((
-      tick,
-    ) async {
-      final stock = _state.stock;
-      if (stock == null) return;
-      final prevPrice = stock.currentPrice;
-      _state = _state.copyWith(
-        stock: stock.copyWith(
-          changeRate: tick.changeRate,
-          priceHistory: [...stock.priceHistory, tick.currentPrice],
-          updatedAt: tick.updatedAt,
-        ),
-        triggeredAlert: await _checkTargetPriceUseCase(
-          stockCode: stock.code,
-          prevPrice: prevPrice,
-          currentPrice: tick.currentPrice,
-        ),
-      );
-      notifyListeners();
+    _tickSubscription = _stockRepository.stockTickStream(code).listen(
+      (tick) async {
+        final stock = _state.stock;
+        if (stock == null) return;
+        final prevPrice = stock.currentPrice;
+        _state = _state.copyWith(
+          stock: stock.copyWith(
+            changeRate: tick.changeRate,
+            priceHistory: [...stock.priceHistory, tick.currentPrice],
+            updatedAt: tick.updatedAt,
+          ),
+          triggeredAlert: await _checkTargetPriceUseCase(
+            stockCode: stock.code,
+            prevPrice: prevPrice,
+            currentPrice: tick.currentPrice,
+          ),
+        );
+        notifyListeners();
+      },
+      onError: (_) {
+        _tickSubscription?.cancel();
+        _stockRepository.disconnect();
+        _reconnectTick(code);
+      },
+    );
+  }
+
+  void _reconnectTick(String code) {
+    Future.delayed(const Duration(seconds: 5), () {
+      if (_disposed) return;
+      _subscribeTick(code);
     });
   }
 }
