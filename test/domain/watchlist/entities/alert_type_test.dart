@@ -8,11 +8,10 @@ void main() {
     });
 
     test('upper, lower, both 값이 존재해야 한다', () {
-      expect(AlertType.values, containsAll([
-        AlertType.upper,
-        AlertType.lower,
-        AlertType.both,
-      ]));
+      expect(
+        AlertType.values,
+        containsAll([AlertType.upper, AlertType.lower, AlertType.both]),
+      );
     });
 
     group('enum name 검증', () {
