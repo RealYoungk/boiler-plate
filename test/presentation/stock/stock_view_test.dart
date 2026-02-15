@@ -48,11 +48,11 @@ void main() {
       await pumpStockView(tester);
 
       expect(find.byType(TabBar), findsOneWidget);
-      expect(find.text('가격'), findsOneWidget);
-      expect(find.text('요약'), findsOneWidget);
-      expect(find.text('입력'), findsOneWidget);
-      expect(find.text('확장 패널'), findsOneWidget);
-      expect(find.text('기타'), findsOneWidget);
+      expect(find.descendant(of: find.byType(TabBar), matching: find.text('가격')), findsOneWidget);
+      expect(find.descendant(of: find.byType(TabBar), matching: find.text('요약')), findsOneWidget);
+      expect(find.descendant(of: find.byType(TabBar), matching: find.text('입력')), findsOneWidget);
+      expect(find.descendant(of: find.byType(TabBar), matching: find.text('확장 패널')), findsOneWidget);
+      expect(find.descendant(of: find.byType(TabBar), matching: find.text('기타')), findsOneWidget);
     });
   });
 }
