@@ -1,6 +1,6 @@
 import 'package:const_date_time/const_date_time.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_coding_test/domain/entities/stock.dart';
+import 'package:flutter_coding_test/domain/stock/stock.dart';
 
 void main() {
   group('Stock', () {

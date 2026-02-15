@@ -1,4 +1,4 @@
-import 'package:flutter_coding_test/domain/entities/stock.dart';
+import 'package:flutter_coding_test/domain/stock/entities/stock.dart';
 
 abstract interface class StockRepository {
   Stream<Stock> getPriceStream();

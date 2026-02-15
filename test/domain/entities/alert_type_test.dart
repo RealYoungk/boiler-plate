@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_coding_test/domain/entities/alert_type.dart';
+import 'package:flutter_coding_test/domain/watchlist/watchlist.dart';
 
 void main() {
   group('AlertType enum', () {

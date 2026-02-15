@@ -1,4 +1,4 @@
-import 'package:flutter_coding_test/domain/entities/watchlist_item.dart';
+import 'package:flutter_coding_test/domain/watchlist/entities/watchlist_item.dart';
 
 abstract interface class WatchlistRepository {
   Future<List<WatchlistItem>> getWatchlist();
