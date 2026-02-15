@@ -7,11 +7,12 @@ part 'stock_model.g.dart';
 @freezed
 abstract class StockModel with _$StockModel {
   const factory StockModel({
-    @Default('') @JsonKey(name: 'stockCode') String code,
+    @Default('') String code,
     @Default('') String name,
+    @Default('') String logoUrl,
     @Default(0) int currentPrice,
     @Default(0.0) double changeRate,
-    @Default(ConstDateTime(0)) @JsonKey(name: 'timestamp') DateTime updatedAt,
+    @Default(ConstDateTime(0)) DateTime updatedAt,
   }) = _StockModel;
 
   factory StockModel.fromJson(Map<String, dynamic> json) =>

@@ -7,20 +7,22 @@ part of 'stock_model.dart';
 // **************************************************************************
 
 _StockModel _$StockModelFromJson(Map<String, dynamic> json) => _StockModel(
-  code: json['stockCode'] as String? ?? '',
+  code: json['code'] as String? ?? '',
   name: json['name'] as String? ?? '',
+  logoUrl: json['logoUrl'] as String? ?? '',
   currentPrice: (json['currentPrice'] as num?)?.toInt() ?? 0,
   changeRate: (json['changeRate'] as num?)?.toDouble() ?? 0.0,
-  updatedAt: json['timestamp'] == null
+  updatedAt: json['updatedAt'] == null
       ? const ConstDateTime(0)
-      : DateTime.parse(json['timestamp'] as String),
+      : DateTime.parse(json['updatedAt'] as String),
 );
 
 Map<String, dynamic> _$StockModelToJson(_StockModel instance) =>
     <String, dynamic>{
-      'stockCode': instance.code,
+      'code': instance.code,
       'name': instance.name,
+      'logoUrl': instance.logoUrl,
       'currentPrice': instance.currentPrice,
       'changeRate': instance.changeRate,
-      'timestamp': instance.updatedAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
     };
