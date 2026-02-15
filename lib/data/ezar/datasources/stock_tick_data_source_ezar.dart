@@ -19,7 +19,7 @@ class StockTickDataSourceEzar {
     });
   }
 
-  Stream<StockTickMessage> getPriceStream() => _subject.stream;
+  Stream<StockTickMessage> get messageStream => _subject.stream;
 
   void disconnect() {
     _timer?.cancel();

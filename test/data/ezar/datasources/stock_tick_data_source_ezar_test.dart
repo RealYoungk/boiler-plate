@@ -18,7 +18,7 @@ void main() {
       test('연결 후 1초마다 메시지를 수신해야 한다', () {
         fakeAsync((async) {
           final messages = <dynamic>[];
-          dataSource.getPriceStream().listen(messages.add);
+          dataSource.messageStream.listen(messages.add);
 
           dataSource.connect();
           expect(messages, isEmpty);
@@ -34,7 +34,7 @@ void main() {
       test('수신된 메시지의 type은 price_update이어야 한다', () {
         fakeAsync((async) {
           final messages = <dynamic>[];
-          dataSource.getPriceStream().listen(messages.add);
+          dataSource.messageStream.listen(messages.add);
 
           dataSource.connect();
           async.elapse(const Duration(seconds: 1));
@@ -47,7 +47,7 @@ void main() {
         fakeAsync((async) {
           const validCodes = ['005930', '000660', '035720', '035420', '005380'];
           final messages = <dynamic>[];
-          dataSource.getPriceStream().listen(messages.add);
+          dataSource.messageStream.listen(messages.add);
 
           dataSource.connect();
           async.elapse(const Duration(seconds: 5));
@@ -61,7 +61,7 @@ void main() {
       test('수신된 메시지의 가격은 적절한 범위이어야 한다', () {
         fakeAsync((async) {
           final messages = <dynamic>[];
-          dataSource.getPriceStream().listen(messages.add);
+          dataSource.messageStream.listen(messages.add);
 
           dataSource.connect();
           async.elapse(const Duration(seconds: 5));
@@ -76,7 +76,7 @@ void main() {
       test('수신된 메시지의 변동률은 -3% ~ 3% 범위이어야 한다', () {
         fakeAsync((async) {
           final messages = <dynamic>[];
-          dataSource.getPriceStream().listen(messages.add);
+          dataSource.messageStream.listen(messages.add);
 
           dataSource.connect();
           async.elapse(const Duration(seconds: 5));
@@ -91,7 +91,7 @@ void main() {
       test('수신된 메시지의 timestamp는 null이 아니어야 한다', () {
         fakeAsync((async) {
           final messages = <dynamic>[];
-          dataSource.getPriceStream().listen(messages.add);
+          dataSource.messageStream.listen(messages.add);
 
           dataSource.connect();
           async.elapse(const Duration(seconds: 1));
@@ -105,7 +105,7 @@ void main() {
       test('연결 해제 후 메시지를 수신하지 않아야 한다', () {
         fakeAsync((async) {
           final messages = <dynamic>[];
-          dataSource.getPriceStream().listen(messages.add);
+          dataSource.messageStream.listen(messages.add);
 
           dataSource.connect();
           async.elapse(const Duration(seconds: 2));
