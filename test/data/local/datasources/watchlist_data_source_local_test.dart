@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_coding_test/data/local/models/watchlist_item_model.dart';
-import 'package:flutter_coding_test/data/local/watchlist_data_source_local.dart';
+import 'package:flutter_coding_test/data/local/datasources/watchlist_data_source_local.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_ce/hive_ce.dart';
 

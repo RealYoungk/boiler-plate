@@ -1,4 +1,4 @@
-import 'package:flutter_coding_test/data/ezar/stock_data_source_ezar.dart';
+import 'package:flutter_coding_test/data/ezar/datasources/stock_data_source_ezar.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

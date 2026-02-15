@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:rxdart/rxdart.dart';
 
-import 'models/stock_tick_message.dart';
+import '../models/stock_tick_message.dart';
 
 // TODO(youngjin.kim): 실제 WebSocket 연결로 교체
 class StockTickDataSourceEzar {

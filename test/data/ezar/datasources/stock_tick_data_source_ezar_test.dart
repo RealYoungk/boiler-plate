@@ -1,5 +1,5 @@
 import 'package:fake_async/fake_async.dart';
-import 'package:flutter_coding_test/data/ezar/stock_tick_data_source_ezar.dart';
+import 'package:flutter_coding_test/data/ezar/datasources/stock_tick_data_source_ezar.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

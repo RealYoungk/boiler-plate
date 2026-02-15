@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 
-import 'models/stock_model.dart';
+import '../models/stock_model.dart';
 
 // TODO(youngjin.kim): 실제 HTTP API 연결로 교체
 class StockDataSourceEzar {
