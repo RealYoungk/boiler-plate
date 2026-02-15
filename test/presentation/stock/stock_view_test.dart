@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_coding_test/domain/stock/stock.dart';
 import 'package:flutter_coding_test/domain/watchlist/watchlist.dart';
+import 'package:flutter_coding_test/presentation/hooks/use_tab_scroll_controller.dart';
 import 'package:flutter_coding_test/presentation/stock/stock_provider.dart';
 import 'package:flutter_coding_test/presentation/stock/stock_view.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,7 +43,7 @@ void main() {
               stockRepository: mockStockRepository,
               watchlistRepository: mockWatchlistRepository,
             )..onInitialized('005930'),
-            child: const StockView(),
+            child: _TestStockView(),
           ),
         ),
       );
@@ -90,4 +91,38 @@ void main() {
       expect(find.text('+1.25%'), findsOneWidget);
     });
   });
+}
+
+/// 테스트용 위젯 - TabScrollController를 직접 생성해서 StockView에 전달
+class _TestStockView extends StatefulWidget {
+  @override
+  State<_TestStockView> createState() => _TestStockViewState();
+}
+
+class _TestStockViewState extends State<_TestStockView> with SingleTickerProviderStateMixin {
+  late final TabScrollController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TabScrollController(
+      tabController: TabController(length: 5, vsync: this),
+      scrollController: ScrollController(),
+      viewportKey: GlobalKey(),
+      keys: List.generate(5, (_) => GlobalKey()),
+      scrollTo: (_) {},
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.tabController.dispose();
+    _controller.scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StockView(tabScrollController: _controller);
+  }
 }

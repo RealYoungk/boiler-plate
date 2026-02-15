@@ -1,30 +1,31 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_coding_test/presentation/hooks/use_tab_scroll_controller.dart';
+import 'package:flutter_coding_test/presentation/stock/stock_page.dart';
 import 'package:flutter_coding_test/presentation/stock/stock_provider.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 
-class StockView extends HookWidget {
-  const StockView({super.key});
+class StockView extends StatelessWidget {
+  const StockView({super.key, required this.tabScrollController});
+
+  final TabScrollController tabScrollController;
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<StockProvider>();
+    final hasError = context.select<StockProvider, bool>((p) => p.hasError);
+    final isLoading = context.select<StockProvider, bool>((p) => p.isLoading);
 
-    if (provider.hasError) {
+    if (hasError) {
       return const Scaffold(
         body: Center(child: Text('종목 정보를 불러오지 못했습니다.')),
       );
     }
 
-    if (provider.isLoading) {
+    if (isLoading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
     }
-
-    final tabScrollController = useTabScrollController(tabViewCount: provider.sectionTitles.length);
 
     return Scaffold(
       appBar: StockAppBarView(
@@ -61,8 +62,10 @@ class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<StockProvider>();
-    final stock = provider.stock;
+    final stock = context.select<StockProvider, ({String name, String code, String logoUrl})>(
+      (p) => (name: p.stock.name, code: p.stock.code, logoUrl: p.stock.logoUrl),
+    );
+    final tabViewTitles = StockPage.tabViewTitles;
     final textTheme = Theme.of(context).textTheme;
     return AppBar(
       title: Row(
@@ -87,7 +90,7 @@ class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
         controller: tabController,
         isScrollable: true,
         tabAlignment: TabAlignment.start,
-        tabs: provider.sectionTitles.map((title) => Tab(text: title)).toList(),
+        tabs: tabViewTitles.map((title) => Tab(text: title)).toList(),
         onTap: onTabTap,
       ),
     );
@@ -117,7 +120,9 @@ class StockPriceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stock = context.watch<StockProvider>().stock;
+    final stock = context.select<StockProvider, ({int currentPrice, double changeRate, List<int> priceHistory})>(
+      (p) => (currentPrice: p.stock.currentPrice, changeRate: p.stock.changeRate, priceHistory: p.stock.priceHistory),
+    );
     final textTheme = Theme.of(context).textTheme;
     final spots = stock.priceHistory
         .asMap()
