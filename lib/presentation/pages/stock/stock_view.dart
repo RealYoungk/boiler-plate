@@ -31,19 +31,19 @@ class _StockViewState extends State<StockView> {
 
   @override
   Widget build(BuildContext context) {
-    final hasError = context.select<StockProvider, bool>((p) => p.state.hasError);
-    final isLoading = context.select<StockProvider, bool>((p) => p.state.isLoading);
+    final hasError = context.select<StockProvider, bool>(
+      (p) => p.state.hasError,
+    );
+    final isLoading = context.select<StockProvider, bool>(
+      (p) => p.state.isLoading,
+    );
 
     if (hasError) {
-      return const Scaffold(
-        body: Center(child: Text('종목 정보를 불러오지 못했습니다.')),
-      );
+      return const Scaffold(body: Center(child: Text('종목 정보를 불러오지 못했습니다.')));
     }
 
     if (isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
@@ -86,7 +86,9 @@ class _StockViewState extends State<StockView> {
         ..hideCurrentSnackBar()
         ..showSnackBar(
           SnackBar(
-            content: Text('${alert.item.stockCode} 목표가 ${alert.item.targetPrice}원 $direction'),
+            content: Text(
+              '${alert.item.stockCode} 목표가 ${alert.item.targetPrice}원 $direction',
+            ),
           ),
         );
     });
@@ -94,15 +96,24 @@ class _StockViewState extends State<StockView> {
 }
 
 class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
-  const StockAppBarView({super.key, required this.tabController, required this.onTabTap});
+  const StockAppBarView({
+    super.key,
+    required this.tabController,
+    required this.onTabTap,
+  });
 
   final TabController tabController;
   final ValueChanged<int> onTabTap;
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + kTextTabBarHeight);
+  Size get preferredSize =>
+      const Size.fromHeight(kToolbarHeight + kTextTabBarHeight);
 
-  Future<void> _onWatchlistToggled(BuildContext context, String stockCode, bool isInWatchlist) async {
+  Future<void> _onWatchlistToggled(
+    BuildContext context,
+    String stockCode,
+    bool isInWatchlist,
+  ) async {
     final provider = context.read<StockProvider>();
     if (isInWatchlist) {
       await provider.onFavoriteToggled(WatchlistItem(stockCode: stockCode));
@@ -114,20 +125,29 @@ class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
       builder: (_) => const _WatchlistDialog(),
     );
     if (result == null) return;
-    await provider.onFavoriteToggled(WatchlistItem(
-      stockCode: stockCode,
-      targetPrice: result.targetPrice,
-      alertType: result.alertType,
-      createdAt: DateTime.now(),
-    ));
+    await provider.onFavoriteToggled(
+      WatchlistItem(
+        stockCode: stockCode,
+        targetPrice: result.targetPrice,
+        alertType: result.alertType,
+        createdAt: DateTime.now(),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final stock = context.select<StockProvider, ({String name, String code, String logoUrl})>(
-      (p) => (name: p.state.stockOrDefault.name, code: p.state.stockOrDefault.code, logoUrl: p.state.stockOrDefault.logoUrl),
+    final stock = context
+        .select<StockProvider, ({String name, String code, String logoUrl})>(
+          (p) => (
+            name: p.state.stockOrDefault.name,
+            code: p.state.stockOrDefault.code,
+            logoUrl: p.state.stockOrDefault.logoUrl,
+          ),
+        );
+    final isInWatchlist = context.select<StockProvider, bool>(
+      (p) => p.state.isInWatchlist,
     );
-    final isInWatchlist = context.select<StockProvider, bool>((p) => p.state.isInWatchlist);
     final tabViewTitles = StockPage.tabViewTitles;
     final textTheme = Theme.of(context).textTheme;
     return AppBar(
@@ -137,14 +157,24 @@ class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
             radius: 16,
             backgroundColor: Colors.blue,
             foregroundImage: NetworkImage(stock.logoUrl),
-            onForegroundImageError: stock.logoUrl.isNotEmpty ? (_, __) {} : null,
+            onForegroundImageError: stock.logoUrl.isNotEmpty
+                ? (_, _) {}
+                : null,
           ),
           const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(stock.name, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-              Text(stock.code, style: textTheme.bodySmall?.copyWith(color: Colors.grey)),
+              Text(
+                stock.name,
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                stock.code,
+                style: textTheme.bodySmall?.copyWith(color: Colors.grey),
+              ),
             ],
           ),
         ],
@@ -155,7 +185,8 @@ class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
             isInWatchlist ? Icons.favorite : Icons.favorite_border,
             color: isInWatchlist ? Colors.red : null,
           ),
-          onPressed: () => _onWatchlistToggled(context, stock.code, isInWatchlist),
+          onPressed: () =>
+              _onWatchlistToggled(context, stock.code, isInWatchlist),
         ),
       ],
       bottom: TabBar(
@@ -174,9 +205,17 @@ class StockPriceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stock = context.select<StockProvider, ({int currentPrice, double changeRate, List<int> priceHistory})>(
-      (p) => (currentPrice: p.state.stockOrDefault.currentPrice, changeRate: p.state.stockOrDefault.changeRate, priceHistory: p.state.stockOrDefault.priceHistory),
-    );
+    final stock = context
+        .select<
+          StockProvider,
+          ({int currentPrice, double changeRate, List<int> priceHistory})
+        >(
+          (p) => (
+            currentPrice: p.state.stockOrDefault.currentPrice,
+            changeRate: p.state.stockOrDefault.changeRate,
+            priceHistory: p.state.stockOrDefault.priceHistory,
+          ),
+        );
     final textTheme = Theme.of(context).textTheme;
     final spots = stock.priceHistory
         .asMap()
@@ -196,14 +235,21 @@ class StockPriceView extends StatelessWidget {
             children: [
               Text(
                 _formatPrice(stock.currentPrice),
-                style: textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
+                style: textTheme.headlineLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(width: 4),
-              Text('원', style: textTheme.bodyLarge?.copyWith(color: Colors.grey)),
+              Text(
+                '원',
+                style: textTheme.bodyLarge?.copyWith(color: Colors.grey),
+              ),
               const SizedBox(width: 12),
               Text(
                 _formatChangeRate(stock.changeRate),
-                style: textTheme.bodyLarge?.copyWith(color: _changeRateColor(stock.changeRate)),
+                style: textTheme.bodyLarge?.copyWith(
+                  color: _changeRateColor(stock.changeRate),
+                ),
               ),
             ],
           ),
@@ -280,7 +326,7 @@ class StockSummaryView extends StatelessWidget {
 }
 
 class StockSummaryInfoView extends StatelessWidget {
-  const StockSummaryInfoView({required this.label, required this.value});
+  const StockSummaryInfoView({super.key, required this.label, required this.value});
 
   final String label;
   final String value;
@@ -293,8 +339,14 @@ class StockSummaryInfoView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
-          Text(value, style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500)),
+          Text(
+            label,
+            style: textTheme.bodyMedium?.copyWith(color: Colors.grey),
+          ),
+          Text(
+            value,
+            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
+          ),
         ],
       ),
     );
@@ -432,10 +484,10 @@ class _WatchlistDialogState extends State<_WatchlistDialog> {
   }
 
   String _alertTypeLabel(AlertType type) => switch (type) {
-        AlertType.upper => '상한가',
-        AlertType.lower => '하한가',
-        AlertType.both => '양방향',
-      };
+    AlertType.upper => '상한가',
+    AlertType.lower => '하한가',
+    AlertType.both => '양방향',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -457,10 +509,12 @@ class _WatchlistDialogState extends State<_WatchlistDialog> {
           const SizedBox(height: 16),
           SegmentedButton<AlertType>(
             segments: AlertType.values
-                .map((type) => ButtonSegment(
-                      value: type,
-                      label: Text(_alertTypeLabel(type)),
-                    ))
+                .map(
+                  (type) => ButtonSegment(
+                    value: type,
+                    label: Text(_alertTypeLabel(type)),
+                  ),
+                )
                 .toList(),
             selected: {_alertType},
             onSelectionChanged: (selected) {
