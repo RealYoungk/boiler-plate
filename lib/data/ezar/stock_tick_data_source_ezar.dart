@@ -19,6 +19,13 @@ class StockTickDataSourceEzar {
     });
   }
 
+  Stream<StockTickMessage> getPriceStream() => _subject.stream;
+
+  void disconnect() {
+    _timer?.cancel();
+    _subject.close();
+  }
+
   void _onMessageReceived() {
     final code = _stockCodes[_random.nextInt(_stockCodes.length)];
     final price = 50000 + _random.nextInt(200000);
@@ -33,12 +40,5 @@ class StockTickDataSourceEzar {
         timestamp: DateTime.now(),
       ),
     );
-  }
-
-  Stream<StockTickMessage> getPriceStream() => _subject.stream;
-
-  void disconnect() {
-    _timer?.cancel();
-    _subject.close();
   }
 }
