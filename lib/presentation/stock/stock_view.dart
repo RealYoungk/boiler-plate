@@ -5,8 +5,27 @@ class StockView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Row(
+          children: [
+            CircleAvatar(
+              radius: 16,
+              backgroundColor: Colors.blue,
+              child: Text('삼', style: TextStyle(color: Colors.white, fontSize: 14)),
+            ),
+            SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('삼성전자', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Text('005930', style: TextStyle(fontSize: 12, color: Colors.grey)),
+              ],
+            ),
+          ],
+        ),
+      ),
+      body: const Center(
         child: Text('Stock'),
       ),
     );
