@@ -50,20 +50,21 @@ class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.read<StockProvider>();
+    final textTheme = Theme.of(context).textTheme;
     return AppBar(
-      title: const Row(
+      title: Row(
         children: [
           CircleAvatar(
             radius: 16,
             backgroundColor: Colors.blue,
-            child: Text('삼', style: TextStyle(color: Colors.white, fontSize: 14)),
+            child: Text('삼', style: textTheme.titleSmall?.copyWith(color: Colors.white)),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('삼성전자', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              Text('005930', style: TextStyle(fontSize: 12, color: Colors.grey)),
+              Text('삼성전자', style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+              Text('005930', style: textTheme.bodySmall?.copyWith(color: Colors.grey)),
             ],
           ),
         ],
@@ -97,22 +98,23 @@ class StockPriceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('가격', style: Theme.of(context).textTheme.titleMedium),
+          Text('가격', style: textTheme.titleMedium),
           const SizedBox(height: 8),
-          const Row(
+          Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              Text('72,500', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
-              SizedBox(width: 4),
-              Text('원', style: TextStyle(fontSize: 16, color: Colors.grey)),
-              SizedBox(width: 12),
-              Text('+1.25%', style: TextStyle(fontSize: 16, color: Colors.red)),
+              Text('72,500', style: textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold)),
+              const SizedBox(width: 4),
+              Text('원', style: textTheme.bodyLarge?.copyWith(color: Colors.grey)),
+              const SizedBox(width: 12),
+              Text('+1.25%', style: textTheme.bodyLarge?.copyWith(color: Colors.red)),
             ],
           ),
           const SizedBox(height: 16),
@@ -147,12 +149,13 @@ class StockSummaryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('요약', style: Theme.of(context).textTheme.titleMedium),
+          Text('요약', style: textTheme.titleMedium),
           const SizedBox(height: 12),
           const StockSummaryInfoView(label: '시가총액', value: '432조 원'),
           const StockSummaryInfoView(label: 'PER', value: '12.5'),
@@ -173,13 +176,14 @@ class StockSummaryInfoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: Colors.grey)),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w500)),
+          Text(label, style: textTheme.bodyMedium?.copyWith(color: Colors.grey)),
+          Text(value, style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500)),
         ],
       ),
     );
