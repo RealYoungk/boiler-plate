@@ -23,7 +23,8 @@ void main() {
         (_) async => const Stock(
           code: '005930',
           name: '삼성전자',
-          currentPrice: 72500,
+          logoUrl: 'https://example.com/logo.png',
+          priceHistory: [72500],
           changeRate: 1.25,
         ),
       );

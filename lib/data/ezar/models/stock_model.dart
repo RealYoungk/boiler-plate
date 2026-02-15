@@ -10,8 +10,8 @@ abstract class StockModel with _$StockModel {
     @Default('') String code,
     @Default('') String name,
     @Default('') String logoUrl,
-    @Default(0) int currentPrice,
     @Default(0.0) double changeRate,
+    @Default([]) List<int> priceHistory,
     @Default(ConstDateTime(0)) DateTime updatedAt,
   }) = _StockModel;
 

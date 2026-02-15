@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Stock {
 
- String get code; String get name; String get logoUrl; int get currentPrice; double get changeRate; DateTime get updatedAt;
+ String get code; String get name; String get logoUrl; double get changeRate; List<int> get priceHistory; DateTime get updatedAt;
 /// Create a copy of Stock
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $StockCopyWith<Stock> get copyWith => _$StockCopyWithImpl<Stock>(this as Stock, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Stock&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.currentPrice, currentPrice) || other.currentPrice == currentPrice)&&(identical(other.changeRate, changeRate) || other.changeRate == changeRate)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Stock&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.changeRate, changeRate) || other.changeRate == changeRate)&&const DeepCollectionEquality().equals(other.priceHistory, priceHistory)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,code,name,logoUrl,currentPrice,changeRate,updatedAt);
+int get hashCode => Object.hash(runtimeType,code,name,logoUrl,changeRate,const DeepCollectionEquality().hash(priceHistory),updatedAt);
 
 @override
 String toString() {
-  return 'Stock(code: $code, name: $name, logoUrl: $logoUrl, currentPrice: $currentPrice, changeRate: $changeRate, updatedAt: $updatedAt)';
+  return 'Stock(code: $code, name: $name, logoUrl: $logoUrl, changeRate: $changeRate, priceHistory: $priceHistory, updatedAt: $updatedAt)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $StockCopyWith<$Res>  {
   factory $StockCopyWith(Stock value, $Res Function(Stock) _then) = _$StockCopyWithImpl;
 @useResult
 $Res call({
- String code, String name, String logoUrl, int currentPrice, double changeRate, DateTime updatedAt
+ String code, String name, String logoUrl, double changeRate, List<int> priceHistory, DateTime updatedAt
 });
 
 
@@ -62,14 +62,14 @@ class _$StockCopyWithImpl<$Res>
 
 /// Create a copy of Stock
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? code = null,Object? name = null,Object? logoUrl = null,Object? currentPrice = null,Object? changeRate = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? code = null,Object? name = null,Object? logoUrl = null,Object? changeRate = null,Object? priceHistory = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,logoUrl: null == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
-as String,currentPrice: null == currentPrice ? _self.currentPrice : currentPrice // ignore: cast_nullable_to_non_nullable
-as int,changeRate: null == changeRate ? _self.changeRate : changeRate // ignore: cast_nullable_to_non_nullable
-as double,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as String,changeRate: null == changeRate ? _self.changeRate : changeRate // ignore: cast_nullable_to_non_nullable
+as double,priceHistory: null == priceHistory ? _self.priceHistory : priceHistory // ignore: cast_nullable_to_non_nullable
+as List<int>,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
 }
@@ -155,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String code,  String name,  String logoUrl,  int currentPrice,  double changeRate,  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String code,  String name,  String logoUrl,  double changeRate,  List<int> priceHistory,  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Stock() when $default != null:
-return $default(_that.code,_that.name,_that.logoUrl,_that.currentPrice,_that.changeRate,_that.updatedAt);case _:
+return $default(_that.code,_that.name,_that.logoUrl,_that.changeRate,_that.priceHistory,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -176,10 +176,10 @@ return $default(_that.code,_that.name,_that.logoUrl,_that.currentPrice,_that.cha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String code,  String name,  String logoUrl,  int currentPrice,  double changeRate,  DateTime updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String code,  String name,  String logoUrl,  double changeRate,  List<int> priceHistory,  DateTime updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Stock():
-return $default(_that.code,_that.name,_that.logoUrl,_that.currentPrice,_that.changeRate,_that.updatedAt);case _:
+return $default(_that.code,_that.name,_that.logoUrl,_that.changeRate,_that.priceHistory,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +196,10 @@ return $default(_that.code,_that.name,_that.logoUrl,_that.currentPrice,_that.cha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String code,  String name,  String logoUrl,  int currentPrice,  double changeRate,  DateTime updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String code,  String name,  String logoUrl,  double changeRate,  List<int> priceHistory,  DateTime updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Stock() when $default != null:
-return $default(_that.code,_that.name,_that.logoUrl,_that.currentPrice,_that.changeRate,_that.updatedAt);case _:
+return $default(_that.code,_that.name,_that.logoUrl,_that.changeRate,_that.priceHistory,_that.updatedAt);case _:
   return null;
 
 }
@@ -210,15 +210,21 @@ return $default(_that.code,_that.name,_that.logoUrl,_that.currentPrice,_that.cha
 /// @nodoc
 
 
-class _Stock implements Stock {
-  const _Stock({this.code = '', this.name = '', this.logoUrl = '', this.currentPrice = 0, this.changeRate = 0.0, this.updatedAt = const ConstDateTime(0)});
+class _Stock extends Stock {
+  const _Stock({this.code = '', this.name = '', this.logoUrl = '', this.changeRate = 0.0, final  List<int> priceHistory = const [], this.updatedAt = const ConstDateTime(0)}): _priceHistory = priceHistory,super._();
   
 
 @override@JsonKey() final  String code;
 @override@JsonKey() final  String name;
 @override@JsonKey() final  String logoUrl;
-@override@JsonKey() final  int currentPrice;
 @override@JsonKey() final  double changeRate;
+ final  List<int> _priceHistory;
+@override@JsonKey() List<int> get priceHistory {
+  if (_priceHistory is EqualUnmodifiableListView) return _priceHistory;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_priceHistory);
+}
+
 @override@JsonKey() final  DateTime updatedAt;
 
 /// Create a copy of Stock
@@ -231,16 +237,16 @@ _$StockCopyWith<_Stock> get copyWith => __$StockCopyWithImpl<_Stock>(this, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Stock&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.currentPrice, currentPrice) || other.currentPrice == currentPrice)&&(identical(other.changeRate, changeRate) || other.changeRate == changeRate)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Stock&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.changeRate, changeRate) || other.changeRate == changeRate)&&const DeepCollectionEquality().equals(other._priceHistory, _priceHistory)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,code,name,logoUrl,currentPrice,changeRate,updatedAt);
+int get hashCode => Object.hash(runtimeType,code,name,logoUrl,changeRate,const DeepCollectionEquality().hash(_priceHistory),updatedAt);
 
 @override
 String toString() {
-  return 'Stock(code: $code, name: $name, logoUrl: $logoUrl, currentPrice: $currentPrice, changeRate: $changeRate, updatedAt: $updatedAt)';
+  return 'Stock(code: $code, name: $name, logoUrl: $logoUrl, changeRate: $changeRate, priceHistory: $priceHistory, updatedAt: $updatedAt)';
 }
 
 
@@ -251,7 +257,7 @@ abstract mixin class _$StockCopyWith<$Res> implements $StockCopyWith<$Res> {
   factory _$StockCopyWith(_Stock value, $Res Function(_Stock) _then) = __$StockCopyWithImpl;
 @override @useResult
 $Res call({
- String code, String name, String logoUrl, int currentPrice, double changeRate, DateTime updatedAt
+ String code, String name, String logoUrl, double changeRate, List<int> priceHistory, DateTime updatedAt
 });
 
 
@@ -268,14 +274,14 @@ class __$StockCopyWithImpl<$Res>
 
 /// Create a copy of Stock
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? code = null,Object? name = null,Object? logoUrl = null,Object? currentPrice = null,Object? changeRate = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? code = null,Object? name = null,Object? logoUrl = null,Object? changeRate = null,Object? priceHistory = null,Object? updatedAt = null,}) {
   return _then(_Stock(
 code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,logoUrl: null == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
-as String,currentPrice: null == currentPrice ? _self.currentPrice : currentPrice // ignore: cast_nullable_to_non_nullable
-as int,changeRate: null == changeRate ? _self.changeRate : changeRate // ignore: cast_nullable_to_non_nullable
-as double,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as String,changeRate: null == changeRate ? _self.changeRate : changeRate // ignore: cast_nullable_to_non_nullable
+as double,priceHistory: null == priceHistory ? _self._priceHistory : priceHistory // ignore: cast_nullable_to_non_nullable
+as List<int>,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
 }

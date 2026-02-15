@@ -10,8 +10,12 @@ _StockModel _$StockModelFromJson(Map<String, dynamic> json) => _StockModel(
   code: json['code'] as String? ?? '',
   name: json['name'] as String? ?? '',
   logoUrl: json['logoUrl'] as String? ?? '',
-  currentPrice: (json['currentPrice'] as num?)?.toInt() ?? 0,
   changeRate: (json['changeRate'] as num?)?.toDouble() ?? 0.0,
+  priceHistory:
+      (json['priceHistory'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList() ??
+      const [],
   updatedAt: json['updatedAt'] == null
       ? const ConstDateTime(0)
       : DateTime.parse(json['updatedAt'] as String),
@@ -22,7 +26,7 @@ Map<String, dynamic> _$StockModelToJson(_StockModel instance) =>
       'code': instance.code,
       'name': instance.name,
       'logoUrl': instance.logoUrl,
-      'currentPrice': instance.currentPrice,
       'changeRate': instance.changeRate,
+      'priceHistory': instance.priceHistory,
       'updatedAt': instance.updatedAt.toIso8601String(),
     };

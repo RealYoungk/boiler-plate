@@ -12,6 +12,7 @@ void main() {
 
         expect(stock.code, '');
         expect(stock.name, '');
+        expect(stock.priceHistory, const []);
         expect(stock.currentPrice, 0);
         expect(stock.changeRate, 0.0);
         expect(stock.updatedAt, const ConstDateTime(0));
@@ -21,7 +22,7 @@ void main() {
         final stock = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -39,7 +40,7 @@ void main() {
         final stock1 = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -47,7 +48,7 @@ void main() {
         final stock2 = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -60,7 +61,7 @@ void main() {
         final stock1 = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -68,7 +69,7 @@ void main() {
         final stock2 = Stock(
           code: 'GOOGL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -81,7 +82,7 @@ void main() {
         final stock1 = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -89,7 +90,7 @@ void main() {
         final stock2 = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 160000,
+          priceHistory: const [160000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -102,7 +103,7 @@ void main() {
         final stock1 = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -110,7 +111,7 @@ void main() {
         final stock2 = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 3.0,
           updatedAt: testDateTime,
         );
@@ -125,12 +126,12 @@ void main() {
         final original = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
 
-        final copied = original.copyWith(currentPrice: 160000);
+        final copied = original.copyWith(priceHistory: const [160000]);
 
         expect(copied.code, 'AAPL');
         expect(copied.name, 'Apple Inc.');
@@ -143,7 +144,7 @@ void main() {
         final original = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -161,14 +162,14 @@ void main() {
         final original = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
 
         final newDateTime = DateTime(2024, 1, 2, 12, 0, 0);
         final copied = original.copyWith(
-          currentPrice: 160000,
+          priceHistory: const [160000],
           changeRate: 3.0,
           updatedAt: newDateTime,
         );
@@ -186,7 +187,7 @@ void main() {
         final stock = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -205,7 +206,7 @@ void main() {
         final stock1 = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -213,7 +214,7 @@ void main() {
         final stock2 = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -225,7 +226,7 @@ void main() {
         final stock1 = Stock(
           code: 'AAPL',
           name: 'Apple Inc.',
-          currentPrice: 150000,
+          priceHistory: const [150000],
           changeRate: 2.5,
           updatedAt: testDateTime,
         );
@@ -233,7 +234,7 @@ void main() {
         final stock2 = Stock(
           code: 'GOOGL',
           name: 'Google LLC',
-          currentPrice: 160000,
+          priceHistory: const [160000],
           changeRate: 3.0,
           updatedAt: testDateTime,
         );

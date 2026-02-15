@@ -18,14 +18,21 @@ class StockProvider extends ChangeNotifier {
         _watchlistRepository = watchlistRepository;
 
   void onInitialized(String code) async {
-    _stock = await _stockRepository.getStock(code);
+    try {
+      _stock = await _stockRepository.getStock(code);
+    } catch (_) {
+      _stock = const Stock();
+    }
     notifyListeners();
+    if (hasError) return;
 
     _tickSubscription?.cancel();
     _tickSubscription = _stockRepository.stockTickStream(code).listen((tick) {
-      _stock = _stock?.copyWith(
-        currentPrice: tick.currentPrice,
+      final stock = _stock;
+      if (stock == null) return;
+      _stock = stock.copyWith(
         changeRate: tick.changeRate,
+        priceHistory: [...stock.priceHistory, tick.currentPrice],
         updatedAt: tick.updatedAt,
       );
       notifyListeners();
@@ -33,6 +40,7 @@ class StockProvider extends ChangeNotifier {
   }
 
   bool get isLoading => _stock == null;
+  bool get hasError => _stock != null && _stock!.code.isEmpty;
   Stock get stock => _stock ?? const Stock();
 
   List<String> get sectionTitles => const ['가격', '요약', '입력', '확장 패널', '기타'];

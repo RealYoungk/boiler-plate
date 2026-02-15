@@ -15,7 +15,7 @@ void main() {
 
         expect(stock.code, '005930');
         expect(stock.name, '삼성전자');
-        expect(stock.currentPrice, greaterThan(0));
+        expect(stock.priceHistory.isNotEmpty, isTrue);
       });
     });
   });

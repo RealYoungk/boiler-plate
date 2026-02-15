@@ -17,8 +17,8 @@ class StockRepositoryImpl implements StockRepository {
       code: model.code,
       name: model.name,
       logoUrl: model.logoUrl,
-      currentPrice: model.currentPrice,
       changeRate: model.changeRate,
+      priceHistory: model.priceHistory,
       updatedAt: model.updatedAt,
     );
   }
@@ -33,8 +33,8 @@ class StockRepositoryImpl implements StockRepository {
       }
       return Stock(
         code: tick.stockCode,
-        currentPrice: tick.currentPrice,
         changeRate: tick.changeRate,
+        priceHistory: [tick.currentPrice],
         updatedAt: tick.timestamp,
       );
     });

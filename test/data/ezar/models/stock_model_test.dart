@@ -11,7 +11,7 @@ void main() {
         expect(model.code, '');
         expect(model.name, '');
         expect(model.logoUrl, '');
-        expect(model.currentPrice, 0);
+        expect(model.priceHistory, const []);
         expect(model.changeRate, 0.0);
         expect(model.updatedAt, const ConstDateTime(0));
       });
@@ -23,7 +23,7 @@ void main() {
           code: '005930',
           name: '삼성전자',
           logoUrl: 'https://example.com/samsung.png',
-          currentPrice: 72500,
+          priceHistory: const [72500],
           changeRate: 1.25,
           updatedAt: updatedAt,
         );
@@ -31,7 +31,7 @@ void main() {
         expect(model.code, '005930');
         expect(model.name, '삼성전자');
         expect(model.logoUrl, 'https://example.com/samsung.png');
-        expect(model.currentPrice, 72500);
+        expect(model.priceHistory, const [72500]);
         expect(model.changeRate, 1.25);
         expect(model.updatedAt, updatedAt);
       });
@@ -43,7 +43,7 @@ void main() {
           'code': '005930',
           'name': '삼성전자',
           'logoUrl': 'https://example.com/samsung.png',
-          'currentPrice': 72500,
+          'priceHistory': [72500],
           'changeRate': 1.25,
           'updatedAt': '2024-01-15T09:30:00.000',
         };
@@ -53,7 +53,7 @@ void main() {
         expect(model.code, '005930');
         expect(model.name, '삼성전자');
         expect(model.logoUrl, 'https://example.com/samsung.png');
-        expect(model.currentPrice, 72500);
+        expect(model.priceHistory, const [72500]);
         expect(model.changeRate, 1.25);
         expect(model.updatedAt, DateTime(2024, 1, 15, 9, 30));
       });
@@ -66,7 +66,7 @@ void main() {
         expect(model.code, '');
         expect(model.name, '');
         expect(model.logoUrl, '');
-        expect(model.currentPrice, 0);
+        expect(model.priceHistory, const []);
         expect(model.changeRate, 0.0);
         expect(model.updatedAt, const ConstDateTime(0));
       });
@@ -80,7 +80,7 @@ void main() {
           code: '005930',
           name: '삼성전자',
           logoUrl: 'https://example.com/samsung.png',
-          currentPrice: 72500,
+          priceHistory: const [72500],
           changeRate: 1.25,
           updatedAt: updatedAt,
         );
@@ -89,7 +89,7 @@ void main() {
           code: '005930',
           name: '삼성전자',
           logoUrl: 'https://example.com/samsung.png',
-          currentPrice: 72500,
+          priceHistory: const [72500],
           changeRate: 1.25,
           updatedAt: updatedAt,
         );
@@ -105,7 +105,7 @@ void main() {
           code: '005930',
           name: '삼성전자',
           logoUrl: 'https://example.com/samsung.png',
-          currentPrice: 72500,
+          priceHistory: [72500],
           changeRate: 1.25,
         );
 
@@ -113,19 +113,19 @@ void main() {
           code: '035720',
           name: '카카오',
           logoUrl: 'https://example.com/kakao.png',
-          currentPrice: 55000,
+          priceHistory: const [55000],
           changeRate: -0.5,
         );
 
         expect(copied.code, '035720');
         expect(copied.name, '카카오');
         expect(copied.logoUrl, 'https://example.com/kakao.png');
-        expect(copied.currentPrice, 55000);
+        expect(copied.priceHistory, const [55000]);
         expect(copied.changeRate, -0.5);
 
         expect(original.code, '005930');
         expect(original.name, '삼성전자');
-        expect(original.currentPrice, 72500);
+        expect(original.priceHistory, const [72500]);
       });
     });
   });

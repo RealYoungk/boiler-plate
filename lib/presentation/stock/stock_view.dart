@@ -12,6 +12,12 @@ class StockView extends HookWidget {
   Widget build(BuildContext context) {
     final provider = context.watch<StockProvider>();
 
+    if (provider.hasError) {
+      return const Scaffold(
+        body: Center(child: Text('종목 정보를 불러오지 못했습니다.')),
+      );
+    }
+
     if (provider.isLoading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -65,9 +71,7 @@ class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
             radius: 16,
             backgroundColor: Colors.blue,
             foregroundImage: NetworkImage(stock.logoUrl),
-            onForegroundImageError: stock.logoUrl.isNotEmpty ? (_, __) {
-              return Text(stock.name[0], style: textTheme.titleSmall?.copyWith(color: Colors.white));
-            } : null,
+            onForegroundImageError: stock.logoUrl.isNotEmpty ? (_, __) {} : null,
           ),
           const SizedBox(width: 8),
           Column(
@@ -93,19 +97,6 @@ class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
 class StockPriceView extends StatelessWidget {
   const StockPriceView({super.key});
 
-  static const _mockSpots = [
-    FlSpot(0, 71000),
-    FlSpot(1, 71500),
-    FlSpot(2, 70800),
-    FlSpot(3, 72000),
-    FlSpot(4, 71200),
-    FlSpot(5, 72500),
-    FlSpot(6, 73000),
-    FlSpot(7, 72800),
-    FlSpot(8, 73500),
-    FlSpot(9, 72500),
-  ];
-
   String _formatPrice(int price) {
     return price.toString().replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
@@ -128,6 +119,11 @@ class StockPriceView extends StatelessWidget {
   Widget build(BuildContext context) {
     final stock = context.watch<StockProvider>().stock;
     final textTheme = Theme.of(context).textTheme;
+    final spots = stock.priceHistory
+        .asMap()
+        .entries
+        .map((e) => FlSpot(e.key.toDouble(), e.value.toDouble()))
+        .toList();
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -162,7 +158,7 @@ class StockPriceView extends StatelessWidget {
                 borderData: FlBorderData(show: false),
                 lineBarsData: [
                   LineChartBarData(
-                    spots: _mockSpots,
+                    spots: spots,
                     isCurved: true,
                     color: _changeRateColor(stock.changeRate),
                     barWidth: 2,
