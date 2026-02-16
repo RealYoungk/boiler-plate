@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_coding_test/domain/watchlist/watchlist.dart';
 
-class WatchlistDialog extends StatefulWidget {
-  const WatchlistDialog({super.key});
+class StockWatchlistDialog extends StatefulWidget {
+  const StockWatchlistDialog({super.key});
 
   @override
-  State<WatchlistDialog> createState() => _WatchlistDialogState();
+  State<StockWatchlistDialog> createState() => _StockWatchlistDialogState();
 }
 
-class _WatchlistDialogState extends State<WatchlistDialog> {
+class _StockWatchlistDialogState extends State<StockWatchlistDialog> {
   final _priceController = TextEditingController();
   AlertType _alertType = AlertType.both;
 

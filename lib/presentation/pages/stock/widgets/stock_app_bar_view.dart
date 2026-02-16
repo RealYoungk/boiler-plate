@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_coding_test/domain/watchlist/watchlist.dart';
 import 'package:flutter_coding_test/presentation/pages/stock/stock_page.dart';
 import 'package:flutter_coding_test/presentation/pages/stock/stock_provider.dart';
-import 'package:flutter_coding_test/presentation/pages/stock/widgets/watchlist_dialog.dart';
+import 'package:flutter_coding_test/presentation/pages/stock/widgets/stock_watchlist_dialog.dart';
 import 'package:provider/provider.dart';
 
 class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
@@ -86,7 +86,7 @@ class StockAppBarView extends StatelessWidget implements PreferredSizeWidget {
               final result =
                   await showDialog<({int targetPrice, AlertType alertType})>(
                     context: context,
-                    builder: (_) => const WatchlistDialog(),
+                    builder: (_) => const StockWatchlistDialog(),
                   );
               if (result == null) return;
               await provider.onWatchlistAdded(
