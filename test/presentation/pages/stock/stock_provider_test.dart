@@ -101,7 +101,10 @@ void main() {
         checkTargetPriceUseCase: mockCheckTargetPriceUseCase,
       );
 
-      await provider.onInitialized('005930');
+      await expectLater(
+        provider.onInitialized('005930'),
+        throwsA(isA<Exception>()),
+      );
 
       expect(provider.state.hasError, true);
       verifyNever(() => mockStockRepository.connect());

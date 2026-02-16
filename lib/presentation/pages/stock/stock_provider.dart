@@ -89,6 +89,8 @@ class StockProvider extends ChangeNotifier {
       );
     } catch (_) {
       _state = _state.copyWith(stock: const Stock(), isLoading: false);
+      notifyListeners();
+      rethrow;
     }
     notifyListeners();
   }
@@ -123,10 +125,11 @@ class StockProvider extends ChangeNotifier {
             );
             notifyListeners();
           },
-          onError: (_) {
+          onError: (error, stackTrace) {
             _tickSubscription?.cancel();
             _stockRepository.disconnect();
             _reconnectTick(code);
+            Error.throwWithStackTrace(error, stackTrace);
           },
         );
   }
