@@ -26,9 +26,7 @@ void main() {
     );
 
     test('isInWatchlist가 true이면 removeItem을 호출해야 한다', () async {
-      when(
-        () => mockRepository.removeItem(any()),
-      ).thenAnswer((_) async {});
+      when(() => mockRepository.removeItem(any())).thenAnswer((_) async {});
 
       await useCase.call(item: testItem, isInWatchlist: true);
 
@@ -37,9 +35,7 @@ void main() {
     });
 
     test('isInWatchlist가 false이면 addItem을 호출해야 한다', () async {
-      when(
-        () => mockRepository.addItem(any()),
-      ).thenAnswer((_) async {});
+      when(() => mockRepository.addItem(any())).thenAnswer((_) async {});
 
       await useCase.call(item: testItem, isInWatchlist: false);
 

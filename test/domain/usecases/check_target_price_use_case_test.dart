@@ -35,9 +35,9 @@ void main() {
       });
 
       test('해당 종목이 watchlist에 없으면 null을 반환해야 한다', () async {
-        when(() => mockRepository.getWatchlist()).thenAnswer(
-          (_) async => [testItem],
-        );
+        when(
+          () => mockRepository.getWatchlist(),
+        ).thenAnswer((_) async => [testItem]);
 
         final result = await useCase.call(
           stockCode: '000660',
@@ -49,9 +49,9 @@ void main() {
       });
 
       test('targetPrice가 null이면 null을 반환해야 한다', () async {
-        when(() => mockRepository.getWatchlist()).thenAnswer(
-          (_) async => [const WatchlistItem(stockCode: '005930')],
-        );
+        when(
+          () => mockRepository.getWatchlist(),
+        ).thenAnswer((_) async => [const WatchlistItem(stockCode: '005930')]);
 
         final result = await useCase.call(
           stockCode: '005930',
@@ -65,9 +65,9 @@ void main() {
 
     group('상한 돌파 (crossedUp)', () {
       test('가격이 목표가를 상향 돌파하면 isUpper=true를 반환해야 한다', () async {
-        when(() => mockRepository.getWatchlist()).thenAnswer(
-          (_) async => [testItem],
-        );
+        when(
+          () => mockRepository.getWatchlist(),
+        ).thenAnswer((_) async => [testItem]);
 
         final result = await useCase.call(
           stockCode: '005930',
@@ -112,9 +112,9 @@ void main() {
 
     group('하한 돌파 (crossedDown)', () {
       test('가격이 목표가를 하향 돌파하면 isUpper=false를 반환해야 한다', () async {
-        when(() => mockRepository.getWatchlist()).thenAnswer(
-          (_) async => [testItem],
-        );
+        when(
+          () => mockRepository.getWatchlist(),
+        ).thenAnswer((_) async => [testItem]);
 
         final result = await useCase.call(
           stockCode: '005930',
@@ -158,9 +158,9 @@ void main() {
 
     group('목표가 미도달', () {
       test('가격이 목표가에 도달하지 않으면 null을 반환해야 한다', () async {
-        when(() => mockRepository.getWatchlist()).thenAnswer(
-          (_) async => [testItem],
-        );
+        when(
+          () => mockRepository.getWatchlist(),
+        ).thenAnswer((_) async => [testItem]);
 
         final result = await useCase.call(
           stockCode: '005930',
@@ -172,9 +172,9 @@ void main() {
       });
 
       test('이전 가격과 현재 가격이 같으면 null을 반환해야 한다', () async {
-        when(() => mockRepository.getWatchlist()).thenAnswer(
-          (_) async => [testItem],
-        );
+        when(
+          () => mockRepository.getWatchlist(),
+        ).thenAnswer((_) async => [testItem]);
 
         final result = await useCase.call(
           stockCode: '005930',
